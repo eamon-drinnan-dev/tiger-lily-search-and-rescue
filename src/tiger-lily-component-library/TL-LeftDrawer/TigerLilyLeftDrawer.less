@@ -1,37 +1,18 @@
 @import "../../styles/tokens.less";
 
 .tiger-lily-left-drawer {
+  width: 360px;
   flex-shrink: 0;
-}
-
-.tiger-lily-left-drawer__paper {
   box-sizing: border-box;
   background-color: @surface-1;
   border-right: @border-width-thin solid @surface-2;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .tiger-lily-left-drawer__content {
-  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.tiger-lily-left-drawer__resize-handle {
-  cursor: col-resize;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: transparent;
-  transition: background-color @transition-fast ease;
-
-  user-select: none; // Prevent text selection while dragging
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-
-  &:hover {
-    background-color: @color-blue;
-  }
+  padding: @spacing-md;
 }

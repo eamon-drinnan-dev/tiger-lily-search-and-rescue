@@ -1,0 +1,29 @@
+@import "../../styles/tokens.less";
+
+.tiger-lily-body {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+  background-color: @surface-0;
+}
+
+.tiger-lily-body__left-drawer {
+  flex-shrink: 0;
+  // LeftDrawer component manages its own width
+}
+
+.tiger-lily-body__main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  // Main content area for Cesium map, panels, etc.
+}
+
+.tiger-lily-body__right-drawer {
+  flex-shrink: 0;
+  // RightDrawer component will manage its own width (future)
+}

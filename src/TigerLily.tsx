@@ -1,12 +1,16 @@
 import TigerLilyTopBar from "./tiger-lily-component-library/TL-TopBar/TigerLilyTopBar";
-import TigerLilyCoreWrapper from "./tiger-lily-component-library/TL-Core-Wrapper/TigerLilyCoreWrapper";
+import TigerLilyRoot from "./tiger-lily-component-library/TL-Root/TigerLilyRoot";
 import TigerLilyLeftDrawer from "./tiger-lily-component-library/TL-LeftDrawer/TigerLilyLeftDrawer";
+import TigerLilyShell from "./tiger-lily-component-library/TL-Body/TigerLilyShell";
+
 function TigerLily() {
   return (
-    <TigerLilyCoreWrapper>
-      <TigerLilyLeftDrawer />
+    <TigerLilyRoot>
       <TigerLilyTopBar />
-    </TigerLilyCoreWrapper>
+      <TigerLilyShell leftDrawer={<TigerLilyLeftDrawer />}>
+        {/* Main content area - Cesium map and panels will go here */}
+      </TigerLilyShell>
+    </TigerLilyRoot>
   );
 }
 
