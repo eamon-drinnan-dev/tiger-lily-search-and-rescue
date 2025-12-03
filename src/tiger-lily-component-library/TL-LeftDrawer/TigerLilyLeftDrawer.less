@@ -1,0 +1,21 @@
+@import "../../styles/tokens.less";
+
+.tiger-lily-left-drawer {
+  // MUI Drawer provides base styling
+  // Additional custom styles using tokens can go here
+}
+
+.tiger-lily-left-drawer__resize-handle {
+  cursor: col-resize;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  transition: background-color 150ms ease;
+
+  user-select: none; // Prevent text selection while dragging
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

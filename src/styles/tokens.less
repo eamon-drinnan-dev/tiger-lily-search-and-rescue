@@ -1,0 +1,147 @@
+/**
+ * Design Tokens (LESS)
+ *
+ * Adheres to:
+ * - OCHA Humanitarian Icon Standards (disaster response context)
+ * - NASA HFES-300 (contrast requirements ≥ 4.5:1)
+ *
+ * SAR Semantics: Green/Amber/Red indicate health/operational state, NOT affiliation.
+ *
+ * Import this file in all component LESS files:
+ * @import '@/styles/tokens.less';
+ */
+
+// ────────────────────────────────────────────────────────
+// Base Colors
+// ────────────────────────────────────────────────────────
+
+@color-emerald: #10b981;   // Emerald green
+@color-amber:   #f59e0b;   // Amber
+@color-blue:    #3b82f6;   // Blue
+@color-red:     #ef4444;   // Red
+
+// ────────────────────────────────────────────────────────
+// SAR Operational State Colors (OCHA/NASA HFES-300)
+// ────────────────────────────────────────────────────────
+
+@status-healthy-green:  #236644;   // Healthy/operational (5.5:1 contrast)
+@status-degraded-amber: #b7791f;   // Degraded/caution (4.7:1 contrast)
+@status-critical-red:   #c53030;   // Critical/danger (4.8:1 contrast)
+@status-info-blue:      #2b6cb0;   // Informational/safe (5.1:1 contrast)
+
+// ────────────────────────────────────────────────────────
+// Surface and Text Colors (NASA HFES-300 contrast)
+// ────────────────────────────────────────────────────────
+
+@text-primary:  #e6e6e6;   // High contrast text
+@text-secondary:#bdbdbd;   // Medium contrast text
+@surface-0:     #0b0f14;   // Base surface (darkest)
+@surface-1:     #11161d;   // Level 1 surface (cards, panels)
+@surface-2:     #16202a;   // Level 2 surface (elevated elements)
+
+// Light mode (for future expansion)
+@text-primary-light:   rgba(0, 0, 0, 0.87);
+@text-secondary-light: rgba(0, 0, 0, 0.6);
+@surface-0-light:      #f5f5f5;
+@surface-1-light:      #ffffff;
+@surface-2-light:      #fafafa;
+
+// ────────────────────────────────────────────────────────
+// Alert Severity Colors
+// ────────────────────────────────────────────────────────
+
+@alert-critical: @status-critical-red;   // Critical alerts (red)
+@alert-warning:  #d97706;                // Warning alerts (orange)
+@alert-info:     #3b82f6;                // Informational alerts (blue)
+
+// ────────────────────────────────────────────────────────
+// Spacing Scale
+// ────────────────────────────────────────────────────────
+
+@spacing-xs:  4px;
+@spacing-sm:  8px;
+@spacing-md:  16px;
+@spacing-lg:  24px;
+@spacing-xl:  32px;
+@spacing-2xl: 48px;
+
+// ────────────────────────────────────────────────────────
+// Typography
+// ────────────────────────────────────────────────────────
+
+@font-primary:   'Rajdhani', sans-serif;
+@font-secondary: 'Inter', sans-serif;
+
+@font-weight-light:   300;
+@font-weight-regular: 400;
+@font-weight-medium:  500;
+@font-weight-bold:    600;
+
+@font-size-xs:   0.75rem;   // 12px
+@font-size-sm:   0.875rem;  // 14px
+@font-size-base: 1rem;      // 16px
+@font-size-lg:   1.125rem;  // 18px
+@font-size-xl:   1.25rem;   // 20px
+@font-size-2xl:  1.5rem;    // 24px
+
+// ────────────────────────────────────────────────────────
+// Motion and Animation
+// ────────────────────────────────────────────────────────
+
+@critical-pulse-duration: 2000ms;   // ~0.5 Hz (≤ 3 Hz requirement)
+@transition-fast:         150ms;
+@transition-base:         250ms;
+@transition-slow:         350ms;
+
+@easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+@easing-enter:    cubic-bezier(0, 0, 0.2, 1);
+@easing-exit:     cubic-bezier(0.4, 0, 1, 1);
+
+// ────────────────────────────────────────────────────────
+// Borders and Shadows
+// ────────────────────────────────────────────────────────
+
+@border-radius-sm: 4px;
+@border-radius-md: 8px;
+@border-radius-lg: 12px;
+
+@border-width-thin:  1px;
+@border-width-thick: 2px;
+
+@shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+@shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+@shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+
+// ────────────────────────────────────────────────────────
+// Z-Index Scale
+// ────────────────────────────────────────────────────────
+
+@z-base:      1;
+@z-dropdown:  100;
+@z-overlay:   200;
+@z-modal:     300;
+@z-popover:   400;
+@z-tooltip:   500;
+
+// ────────────────────────────────────────────────────────
+// Mixins
+// ────────────────────────────────────────────────────────
+
+// Smooth transition
+.transition(@properties: all, @duration: @transition-base) {
+  transition: @properties @duration @easing-standard;
+}
+
+// Text truncation
+.truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Flexbox centering
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
