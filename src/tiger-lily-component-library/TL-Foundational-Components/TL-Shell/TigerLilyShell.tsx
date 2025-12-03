@@ -25,29 +25,29 @@ const TigerLilyShell: React.FC<TigerLilyShellProps> = ({
 }) => {
   return (
     <Box
-      className={`tiger-lily-body ${className || ""}`}
-      test-py="tiger-lily-body"
+      className={`tiger-lily-shell ${className || ""}`}
+      test-py="tiger-lily-shell"
     >
       {leftDrawer && (
         <Box
-          className="tiger-lily-body__left-drawer"
-          test-py="tiger-lily-body-left-drawer"
+          className="tiger-lily-shell__left-drawer"
+          test-py="tiger-lily-shell-left-drawer"
         >
           {leftDrawer}
         </Box>
       )}
 
       <Box
-        className="tiger-lily-body__main-content"
-        test-py="tiger-lily-body-main-content"
+        className="tiger-lily-shell__main-content"
+        test-py="tiger-lily-shell-main-content"
       >
         {children}
       </Box>
 
       {rightDrawer && (
         <Box
-          className="tiger-lily-body__right-drawer"
-          test-py="tiger-lily-body-right-drawer"
+          className="tiger-lily-shell__right-drawer"
+          test-py="tiger-lily-shell-right-drawer"
         >
           {rightDrawer}
         </Box>

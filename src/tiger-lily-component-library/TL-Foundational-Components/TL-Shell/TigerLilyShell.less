@@ -1,6 +1,6 @@
-@import "../../styles/tokens.less";
+@import "../../../styles/tokens.less";
 
-.tiger-lily-body {
+.tiger-lily-shell {
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -9,12 +9,12 @@
   background-color: @surface-0;
 }
 
-.tiger-lily-body__left-drawer {
+.tiger-lily-shell__left-drawer {
   flex-shrink: 0;
   // LeftDrawer component manages its own width
 }
 
-.tiger-lily-body__main-content {
+.tiger-lily-shell__main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
   // Main content area for Cesium map, panels, etc.
 }
 
-.tiger-lily-body__right-drawer {
+.tiger-lily-shell__right-drawer {
   flex-shrink: 0;
   // RightDrawer component will manage its own width (future)
 }
