@@ -734,67 +734,235 @@ borderColor: mode === 'light' ? '#e0e0e0' : 'rgba(255,255,255,0.08)'
 
 ### 6. Styling Rules
 
-**Never use the React `style={{...}}` prop in application code, except for extremely rare one-off cases.**
+**IMPORTANT: Maximize use of LESS stylesheets over inline styles.**
 
-If you truly must use inline styles, leave a comment explaining why.
+**Styling Hierarchy (in order of preference):**
 
-#### Preferred Styling Approaches
+1. **LESS stylesheets with design tokens** (MOST PREFERRED)
+2. **MUI `sx` prop** for dynamic/state-dependent styles only
+3. **Never use inline `style={{...}}`** (except extremely rare cases with explanation)
 
-For layout and visual styling:
+#### When to Use LESS
 
-1. **Prefer `className`** + our LESS/token system, OR
-2. **MUI's `sx` or `styled()` APIs** for local, stateful, or theme-aware styles
+**ALWAYS use LESS for:**
 
-#### Token Usage
+- **Static layout** (flexbox, grid, positioning, dimensions)
+- **Colors** available as LESS tokens (`@surface-1`, `@text-primary`, `@color-blue`, etc.)
+- **Spacing** using LESS tokens (`@spacing-md`, `@spacing-lg`, etc.)
+- **Typography** using LESS tokens (`@font-primary`, `@font-weight-bold`, etc.)
+- **Transitions/animations** using LESS tokens (`@transition-fast`, `@easing-standard`)
+- **Borders, shadows, radii** using LESS tokens
+- **Hover states, pseudo-selectors** (`:hover`, `:focus`, `::before`, etc.)
 
-**All spacing, radii, and dimensions must come from tokens/theme** where possible:
-- Use `theme.spacing()` for spacing
-- Use Tiger Lily size tokens (`tokens.size.*`)
-- Never use hardcoded numbers sprinkled through JSX
+**Example:**
 
-#### Explicit Rule
+```less
+@import '../../styles/tokens.less';
 
-**Simple one-liners like `style={{ width: 40 }}` or `style={{ marginTop: 8 }}` are NOT allowed.**
+.my-component {
+  display: flex;
+  flex-direction: column;
+  background-color: @surface-1;
+  padding: @spacing-md;
+  border-radius: @border-radius-md;
+}
 
-Convert them to `sx` or CSS classes and use tokens.
+.my-component__title {
+  flex-grow: 1;
+  color: @text-primary;
+  font-family: @font-primary;
+  font-weight: @font-weight-bold;
 
-**Examples:**
+  &:hover {
+    color: @color-blue;
+  }
+}
+```
+
+#### MUI Component Internal Slots
+
+**IMPORTANT: Never use native MUI class selectors like `:global(.MuiDrawer-paper)`**
+
+MUI components expose internal "slots" (sub-elements) that should be styled using the `slotProps` prop, NOT CSS selectors.
+
+**Bad ❌ - Avoid this pattern:**
 
 ```tsx
-// Bad ❌
-<Box style={{ width: 40, height: 40, border: 'none', cursor: 'pointer' }}>
-  {/* ... */}
-</Box>
-
-<TextField style={{ marginTop: 8 }} />
-
-// Good ✅ - Using sx with tokens
-<Box
+<Drawer
+  className="my-drawer"
   sx={{
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-    border: 'none',
-    cursor: 'pointer',
+    '& .MuiDrawer-paper': {  // BAD: Relies on internal MUI classes
+      backgroundColor: theme.palette.background.paper,
+    },
+  }}
+/>
+```
+
+```less
+.my-drawer {
+  :global(.MuiDrawer-paper) {  // BAD: Relies on internal MUI classes
+    background-color: @surface-1;
+  }
+}
+```
+
+**Good ✅ - Use slotProps:**
+
+```tsx
+<Drawer
+  className="my-drawer"
+  slotProps={{
+    paper: {
+      className: "my-drawer__paper",  // Add your own className
+      sx: {
+        // Only dynamic styles here
+        width: dynamicWidth,
+      },
+    },
+  }}
+/>
+```
+
+```less
+.my-drawer {
+  flex-shrink: 0;
+}
+
+.my-drawer__paper {
+  background-color: @surface-1;
+  border-right: @border-width-thin solid @surface-2;
+}
+```
+
+**Benefits of using `slotProps`:**
+- ✅ Explicit, clear, and uses MUI's official API
+- ✅ Doesn't break if MUI changes internal class names
+- ✅ Keeps styling in LESS files using your own classNames
+- ✅ Works with component library's BEM naming conventions
+
+**Common MUI slots:**
+- `Drawer`: `paper`, `backdrop`
+- `Dialog`: `paper`, `backdrop`
+- `Popover`: `paper`
+- `Menu`: `paper`, `list`
+- `Select`: `select`, `icon`
+- `TextField`: `input`, `inputLabel`
+
+Always check the MUI component's API docs for available slots.
+
+#### When to Use MUI `sx`
+
+**ONLY use `sx` for:**
+
+- **Dynamic values** based on component state or props
+  ```tsx
+  sx={{ width: isOpen ? 300 : 0 }}
+  ```
+
+- **Theme utilities** not available in LESS tokens
+  ```tsx
+  sx={{
+    width: theme.spacing(5),  // Dynamic theme spacing
+    boxShadow: theme.shadows[2],  // Theme shadows
+    transition: theme.transitions.create('width'),  // Theme transition builder
+  }}
+  ```
+
+- **Responsive breakpoints**
+  ```tsx
+  sx={{
+    display: { xs: 'none', md: 'block' },
+    width: { xs: '100%', md: 300 },
+  }}
+  ```
+
+- **Computed styles** requiring JavaScript logic
+  ```tsx
+  sx={{ opacity: isLoading ? 0.5 : 1 }}
+  ```
+
+#### Real-World Example: LeftDrawer
+
+**LESS file** (static styles):
+
+```less
+@import '../../styles/tokens.less';
+
+.tiger-lily-left-drawer {
+  flex-shrink: 0;
+}
+
+.tiger-lily-left-drawer__paper {
+  box-sizing: border-box;
+  background-color: @surface-1;
+  border-right: @border-width-thin solid @surface-2;
+}
+
+.tiger-lily-left-drawer__content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tiger-lily-left-drawer__resize-handle {
+  cursor: col-resize;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  transition: background-color @transition-fast ease;
+
+  &:hover {
+    background-color: @color-blue;
+  }
+}
+```
+
+**TSX file** (dynamic styles only):
+
+```tsx
+<Drawer
+  className="tiger-lily-left-drawer"
+  sx={{ width: drawerWidth }}  // Dynamic prop
+  slotProps={{
+    paper: {
+      className: "tiger-lily-left-drawer__paper",  // Style in LESS
+      sx: {
+        width: drawerWidth,  // Dynamic prop
+        transition: isResizing ? 'none' : theme.transitions.create('width'),  // Conditional
+      },
+    },
   }}
 >
-  {/* ... */}
-</Box>
-
-<TextField sx={{ mt: 1 }} />
-
-// Good ✅ - Using className
-<Box className="color-swatch-input">
-  {/* ... */}
-</Box>
-
-// In CSS/LESS:
-// .color-swatch-input {
-//   width: var(--spacing-5);
-//   height: var(--spacing-5);
-//   border: none;
-//   cursor: pointer;
-// }
+  <Box className="tiger-lily-left-drawer__content">
+    <Box
+      className="tiger-lily-left-drawer__resize-handle"
+      sx={{ width: theme.spacing(0.5) }}  // Theme utility
+    />
+  </Box>
+</Drawer>
 ```
+
+#### Migration Strategy
+
+When refactoring existing components:
+
+1. **Identify static styles** → Move to LESS with design tokens
+2. **Replace MUI class selectors** → Use `slotProps` to add your own classNames
+3. **Keep dynamic/conditional styles** → Leave in `sx`
+4. **Convert theme utilities** → Use LESS tokens where available
+5. **Add className** → Create BEM-style classes (`component__element`)
+
+#### Explicit Rules
+
+- **Never use `style={{...}}`** – Always use LESS or `sx`
+- **Never use MUI class selectors** – Use `slotProps` to add classNames instead
+- **No magic values** – All dimensions/colors must use tokens
+- **Prefer LESS** – If it can be in a stylesheet, put it there
+- **sx is for dynamics** – State, props, breakpoints, theme utilities only
+- **Use slotProps** – Target MUI internal elements with your own classNames
 
 ### 7. Layout Philosophy
 
@@ -869,9 +1037,10 @@ When creating or editing components, ensure:
 - [ ] **className**: Component accepts optional `className` prop
 - [ ] **Class naming**: Use kebab-case with `parent__child` pattern
 - [ ] **test-py**: All testable elements have `test-py` attributes
-- [ ] **Color tokens**: All colors use tokens from `src/styles/tokens.ts` (no hardcoded hex/rgb values)
+- [ ] **Color tokens**: All colors use tokens from `src/styles/tokens.less` (no hardcoded hex/rgb values)
 - [ ] **Constants**: No magic strings/numbers; use named constants from `src/lib/constants.ts`
-- [ ] **Styling**: No `style={{...}}` prop; use `sx` or `className` with tokens
+- [ ] **Styling**: Static styles in LESS with tokens; dynamic styles in `sx`; never use `style={{...}}`
+- [ ] **MUI slots**: Use `slotProps` to add classNames; never use `:global(.MuiComponent-class)`
 - [ ] **Layout**: Use flex properties (`flex: 1`, `gap`) instead of fixed widths/padding
 - [ ] **Critical alerts**: Motion (≤ 3 Hz) + audio for CRITICAL severity
 - [ ] **JSDoc**: Public components have JSDoc with `@description` and `@example`
@@ -883,8 +1052,10 @@ When creating or editing components, ensure:
 
 - **Hardcoded strings?** → Migrate to i18n (`src/i18n/locales/en-US.ts`)
 - **Magic strings/numbers?** → Extract to named constants (`src/lib/constants.ts`)
-- **Hardcoded colors?** → Use color tokens (`src/styles/tokens.ts`)
-- **Inline styles (`style={{...}}`)?** → Convert to `sx` or `className` with tokens
+- **Hardcoded colors?** → Use LESS color tokens (`@surface-1`, `@text-primary`, etc.)
+- **Inline styles (`style={{...}}`)?** → Move to LESS with tokens (preferred) or `sx` if dynamic
+- **Styles in `sx` that could be static?** → Move to LESS with design tokens
+- **MUI class selectors (`:global(.MuiDrawer-paper)`)?** → Use `slotProps` to add your own className
 - **Fixed widths in child components?** → Use `flex: 1` to fill available space
 - **Tests selecting by className?** → Replace with `getByTestId` + `test-py`
 - **Missing `className` support?** → Add optional `className` prop

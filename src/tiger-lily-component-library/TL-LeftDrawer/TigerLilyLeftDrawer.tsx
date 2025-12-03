@@ -56,32 +56,26 @@ const TigerLilyLeftDrawer: React.FC<TigerLilyLeftDrawerProps> = ({
     <Drawer
       variant="permanent"
       open={open}
-      className={className}
+      className={`tiger-lily-left-drawer ${className || ""}`}
       test-py="tiger-lily-left-drawer"
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-          backgroundColor: theme.palette.background.paper,
-          borderRight: `1px solid ${theme.palette.divider}`,
-          transition: isResizing
-            ? "none"
-            : theme.transitions.create("width", {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-              }),
+      sx={{ width: drawerWidth }}
+      slotProps={{
+        paper: {
+          className: "tiger-lily-left-drawer__paper",
+          sx: {
+            width: drawerWidth,
+            transition: isResizing
+              ? "none"
+              : theme.transitions.create("width", {
+                  easing: theme.transitions.easing.sharp,
+                  duration: theme.transitions.duration.enteringScreen,
+                }),
+          },
         },
       }}
     >
       <Box
-        sx={{
-          position: "relative",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-        }}
+        className="tiger-lily-left-drawer__content"
         test-py="tiger-lily-left-drawer-content"
       >
         {/* Drawer content will go here */}
@@ -90,12 +84,9 @@ const TigerLilyLeftDrawer: React.FC<TigerLilyLeftDrawerProps> = ({
         <Box
           onMouseDown={handleMouseDown}
           className="tiger-lily-left-drawer__resize-handle"
-          data-cy="tiger-lily-left-drawer-resize-handle"
+          test-py="tiger-lily-left-drawer-resize-handle"
           sx={{
             width: theme.spacing(0.5),
-            "&:hover": {
-              backgroundColor: theme.palette.primary.main,
-            },
           }}
         />
       </Box>

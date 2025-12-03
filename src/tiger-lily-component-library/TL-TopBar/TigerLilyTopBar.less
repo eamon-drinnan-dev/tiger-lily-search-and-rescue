@@ -1,9 +1,20 @@
 @import '../../styles/tokens.less';
 
 .tiger-lily-top-bar {
-    // MUI AppBar provides display: flex by default
-    // Additional custom styling can go here using tokens
-
-    // Example of using design tokens in LESS
+    background-color: @surface-1;
+    box-shadow: @shadow-md;
     border-bottom: @border-width-thin solid @surface-2;
+}
+
+.tiger-lily-top-bar__menu-button {
+    margin-right: @spacing-md;
+}
+
+.tiger-lily-top-bar__title {
+    flex-grow: 1;
+    color: @text-primary;
+    font-family: @font-primary;
+    font-weight: @font-weight-bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
