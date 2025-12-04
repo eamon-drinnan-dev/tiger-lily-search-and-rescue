@@ -8,9 +8,10 @@
  * }
  */
 
+import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '../state/store';
 import { selectMapInitialView, type MapInitialView } from '../state/selectors';
 
 export function useMapInitialView(): MapInitialView {
-  return useStore(selectMapInitialView);
+  return useStore(useShallow(selectMapInitialView));
 }
