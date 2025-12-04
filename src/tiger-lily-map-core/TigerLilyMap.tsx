@@ -6,9 +6,11 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import { Viewer, Cartesian3, Math as CesiumMath } from 'cesium';
+import { Viewer } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import './TigerLilyMap.less';
+import { useMapInitialView } from '../hooks/useMapInitialView';
+import { positionCamera } from './mapCameraPositioning';
 
 export interface TigerLilyMapProps {
   className?: string;
@@ -17,6 +19,7 @@ export interface TigerLilyMapProps {
 export const TigerLilyMap: React.FC<TigerLilyMapProps> = ({ className }) => {
   const cesiumContainerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
+  const mapInitialView = useMapInitialView();
 
   useEffect(() => {
     if (!cesiumContainerRef.current || viewerRef.current) {
@@ -41,21 +44,14 @@ export const TigerLilyMap: React.FC<TigerLilyMapProps> = ({ className }) => {
 
     viewerRef.current = viewer;
 
-    // Position camera at Guelph, Ontario
-    // Coordinates: 43.5448° N, 80.2482° W
-    // Height: 15000 meters for good overview
-    viewer.camera.setView({
-      destination: Cartesian3.fromDegrees(
-        -80.2482, // Longitude (negative for West)
-        43.5448,  // Latitude
-        15000     // Height in meters
-      ),
-      orientation: {
-        heading: CesiumMath.toRadians(0),   // North
-        pitch: CesiumMath.toRadians(-90),   // Looking straight down
-        roll: 0,
-      },
-    });
+    // Disable camera inertia to prevent drift
+    viewer.scene.screenSpaceCameraController.enableTilt = true;
+    viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
+    viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
+    viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
+
+    // Position camera based on state priority chain
+    positionCamera(viewer, mapInitialView);
 
     // Cleanup on unmount
     return () => {
@@ -64,7 +60,7 @@ export const TigerLilyMap: React.FC<TigerLilyMapProps> = ({ className }) => {
         viewerRef.current = null;
       }
     };
-  }, []);
+  }, [mapInitialView]);
 
   return (
     <div className={`tiger-lily-map ${className || ''}`}>
