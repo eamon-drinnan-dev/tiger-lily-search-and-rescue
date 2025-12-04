@@ -5,7 +5,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import type { ID } from '../types/primitives';
+import type { ID } from '../tiger-lily-types';
 
 /**
  * Generate a new unique ID (UUID v4)
