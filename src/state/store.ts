@@ -1,6 +1,7 @@
 /**
  * Zustand Store
  * @description Combined store with all state slices
+ * @note Immer is used selectively within entitiesSlice for Map CRUD operations
  */
 
 import { create } from 'zustand';

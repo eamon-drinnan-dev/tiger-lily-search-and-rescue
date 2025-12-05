@@ -22,7 +22,12 @@ export interface SettingsSlice {
   setThemeMode: (mode: 'light' | 'dark') => void;
 }
 
-export const createSettingsSlice: StateCreator<SettingsSlice> = (set) => ({
+export const createSettingsSlice: StateCreator<
+  SettingsSlice,
+  [],
+  [],
+  SettingsSlice
+> = (set) => ({
   mapDefault: null,
   themeMode: 'light',
 

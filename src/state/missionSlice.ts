@@ -24,7 +24,12 @@ export interface MissionSlice {
   clearActiveMission: () => void;
 }
 
-export const createMissionSlice: StateCreator<MissionSlice> = (set) => ({
+export const createMissionSlice: StateCreator<
+  MissionSlice,
+  [],
+  [],
+  MissionSlice
+> = (set) => ({
   activeMission: null,
 
   setActiveMission: (mission) => set({ activeMission: mission }),

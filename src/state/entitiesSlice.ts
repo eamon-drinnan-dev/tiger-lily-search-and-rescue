@@ -1,8 +1,10 @@
 /**
  * Entities Slice
  * @description Manages drones, K9 units, responders, incidents, and zones
+ * @note Uses Immer's produce() for Map CRUD operations - write mutable code, get immutable updates
  */
 
+import { produce } from 'immer';
 import type { StateCreator } from 'zustand';
 import type { Drone, K9Unit, Responder, Incident, Zone, Entity, ID } from '../tiger-lily-types/index';
 
@@ -24,11 +26,22 @@ export interface EntitiesSlice {
   updateK9Unit: (id: ID, k9: K9Unit) => void;
   updateResponder: (id: ID, responder: Responder) => void;
 
+  deleteDrone: (id: ID) => void;
+  deleteK9Unit: (id: ID) => void;
+  deleteResponder: (id: ID) => void;
+  deleteIncident: (id: ID) => void;
+  deleteZone: (id: ID) => void;
+
   // Derived getters
   getAllActiveEntities: () => Entity[];
 }
 
-export const createEntitiesSlice: StateCreator<EntitiesSlice> = (set, get) => ({
+export const createEntitiesSlice: StateCreator<
+  EntitiesSlice,
+  [],
+  [],
+  EntitiesSlice
+> = (set, get) => ({
   drones: new Map(),
   k9Units: new Map(),
   responders: new Map(),
@@ -41,26 +54,62 @@ export const createEntitiesSlice: StateCreator<EntitiesSlice> = (set, get) => ({
   setIncidents: (incidents) => set({ incidents }),
   setZones: (zones) => set({ zones }),
 
+  // Immer's produce() wraps mutations - write mutable code, get immutable state
   updateDrone: (id, drone) =>
-    set((state) => {
-      const newDrones = new Map(state.drones);
-      newDrones.set(id, drone);
-      return { drones: newDrones };
-    }),
+    set(
+      produce((state) => {
+        state.drones.set(id, drone);
+      })
+    ),
 
   updateK9Unit: (id, k9) =>
-    set((state) => {
-      const newK9Units = new Map(state.k9Units);
-      newK9Units.set(id, k9);
-      return { k9Units: newK9Units };
-    }),
+    set(
+      produce((state) => {
+        state.k9Units.set(id, k9);
+      })
+    ),
 
   updateResponder: (id, responder) =>
-    set((state) => {
-      const newResponders = new Map(state.responders);
-      newResponders.set(id, responder);
-      return { responders: newResponders };
-    }),
+    set(
+      produce((state) => {
+        state.responders.set(id, responder);
+      })
+    ),
+
+  deleteDrone: (id) =>
+    set(
+      produce((state) => {
+        state.drones.delete(id);
+      })
+    ),
+
+  deleteK9Unit: (id) =>
+    set(
+      produce((state) => {
+        state.k9Units.delete(id);
+      })
+    ),
+
+  deleteResponder: (id) =>
+    set(
+      produce((state) => {
+        state.responders.delete(id);
+      })
+    ),
+
+  deleteIncident: (id) =>
+    set(
+      produce((state) => {
+        state.incidents.delete(id);
+      })
+    ),
+
+  deleteZone: (id) =>
+    set(
+      produce((state) => {
+        state.zones.delete(id);
+      })
+    ),
 
   getAllActiveEntities: () => {
     const state = get();
