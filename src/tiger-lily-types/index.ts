@@ -15,20 +15,20 @@ export type { BaseEntity, EntityKind, Entity } from './entities';
 export { EntityKinds } from './entities';
 
 // Entities - Drones
-export type { Drone, DroneStatus } from './entities';
-export { DroneStatuses } from './entities';
+export type { Drone, DroneStatus } from './drones';
+export { DroneStatuses } from './drones';
 
 // Entities - K9 Units
-export type { K9Unit, K9Status, K9Capability } from './entities';
-export { K9Statuses, K9Capabilities } from './entities';
+export type { K9Unit, K9Status, K9Capability } from './k9';
+export { K9Statuses, K9Capabilities } from './k9';
 
 // Entities - Responders
-export type { Responder, ResponderRole } from './entities';
-export { ResponderRoles } from './entities';
+export type { Responder, ResponderRole } from './responders';
+export { ResponderRoles } from './responders';
 
 // Entities - Incidents
-export type { Incident, IncidentType, Severity } from './entities';
-export { IncidentTypes, Severities } from './entities';
+export type { Incident, IncidentType, Severity } from './incidents';
+export { IncidentTypes, Severities } from './incidents';
 
 // Entities - Zones
 export type {
@@ -38,9 +38,9 @@ export type {
   ScentZoneMeta,
   ScentType,
   ScentConfidence,
-} from './entities';
-export { ZoneTypes, ScentTypes, ScentConfidences } from './entities';
+} from './zones';
+export { ZoneTypes, ScentTypes, ScentConfidences } from './zones';
 
 // Missions
-export type { Mission, MissionStatus, MissionAOI } from './entities';
-export { MissionStatuses } from './entities';
+export type { Mission, MissionStatus, MissionAOI } from './missions';
+export { MissionStatuses } from './missions';
