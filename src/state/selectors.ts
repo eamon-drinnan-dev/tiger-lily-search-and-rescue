@@ -3,10 +3,10 @@
  * @description Derived state and consolidation logic for UI-ready data shapes
  */
 
-import type { MissionSlice, MissionAOI } from './missionSlice';
+import type { MissionSlice } from './missionSlice';
 import type { EntitiesSlice } from './entitiesSlice';
 import type { SettingsSlice, MapDefaultView } from './settingsSlice';
-import type { Entity } from '../tiger-lily-types/index';
+import type { Entity, MissionAOI } from '../tiger-lily-types/index';
 
 export type CombinedState = MissionSlice & EntitiesSlice & SettingsSlice;
 

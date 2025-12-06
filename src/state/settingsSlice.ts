@@ -4,6 +4,7 @@
  */
 
 import type { StateCreator } from 'zustand';
+import { ThemeModes, type ThemeMode } from '../lib/constants';
 
 export interface MapDefaultView {
   center: { lat: number; lon: number };
@@ -15,11 +16,11 @@ export interface MapDefaultView {
 
 export interface SettingsSlice {
   mapDefault: MapDefaultView | null;
-  themeMode: 'light' | 'dark';
+  themeMode: ThemeMode;
 
   // Actions
   setMapDefault: (view: MapDefaultView | null) => void;
-  setThemeMode: (mode: 'light' | 'dark') => void;
+  setThemeMode: (mode: ThemeMode) => void;
 }
 
 export const createSettingsSlice: StateCreator<
@@ -29,7 +30,7 @@ export const createSettingsSlice: StateCreator<
   SettingsSlice
 > = (set) => ({
   mapDefault: null,
-  themeMode: 'light',
+  themeMode: ThemeModes.LIGHT,
 
   setMapDefault: (view) => set({ mapDefault: view }),
   setThemeMode: (mode) => set({ themeMode: mode }),

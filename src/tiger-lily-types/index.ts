@@ -40,3 +40,7 @@ export type {
   ScentConfidence,
 } from './entities';
 export { ZoneTypes, ScentTypes, ScentConfidences } from './entities';
+
+// Missions
+export type { Mission, MissionStatus, MissionAOI } from './entities';
+export { MissionStatuses } from './entities';

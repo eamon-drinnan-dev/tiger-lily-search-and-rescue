@@ -4,19 +4,7 @@
  */
 
 import type { StateCreator } from 'zustand';
-
-export interface MissionAOI {
-  center: { lat: number; lon: number };
-  radiusMeters: number;
-}
-
-export interface Mission {
-  id: string;
-  name: string;
-  aoi?: MissionAOI;
-  status: 'active' | 'planning' | 'completed';
-  createdAt: string;
-}
+import type { Mission } from '../tiger-lily-types/index';
 
 export interface MissionSlice {
   activeMission: Mission | null;
