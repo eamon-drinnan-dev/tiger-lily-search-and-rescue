@@ -3,24 +3,24 @@ import { mockZones } from './db';
 
 /**
  * Zones Repository
- * @description In-memory CRUD operations for zone entities using Map
+ * @description In-memory CRUD operations for zone entities using objects
  */
 
 export function getAllZones(): Zone[] {
-  return Array.from(mockZones.values());
+  return Object.values(mockZones);
 }
 
 export function getZoneById(id: ID): Zone | undefined {
-  return mockZones.get(id);
+  return mockZones[id];
 }
 
 export function createZone(zone: Zone): Zone {
-  mockZones.set(zone.id, zone);
+  mockZones[zone.id] = zone;
   return zone;
 }
 
 export function updateZone(id: ID, updates: Partial<Omit<Zone, 'id' | 'kind'>>): Zone | undefined {
-  const existing = mockZones.get(id);
+  const existing = mockZones[id];
   if (!existing) {
     return undefined;
   }
@@ -31,10 +31,12 @@ export function updateZone(id: ID, updates: Partial<Omit<Zone, 'id' | 'kind'>>):
     updatedAt: new Date().toISOString(),
   };
 
-  mockZones.set(id, updated);
+  mockZones[id] = updated;
   return updated;
 }
 
 export function deleteZone(id: ID): boolean {
-  return mockZones.delete(id);
+  if (!mockZones[id]) return false;
+  delete mockZones[id];
+  return true;
 }

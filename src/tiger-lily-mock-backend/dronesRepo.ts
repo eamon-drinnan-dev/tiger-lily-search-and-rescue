@@ -3,24 +3,24 @@ import { mockDrones } from './db';
 
 /**
  * Drones Repository
- * @description In-memory CRUD operations for drone entities using Map
+ * @description In-memory CRUD operations for drone entities using objects
  */
 
 export function getAllDrones(): Drone[] {
-  return Array.from(mockDrones.values());
+  return Object.values(mockDrones);
 }
 
 export function getDroneById(id: ID): Drone | undefined {
-  return mockDrones.get(id);
+  return mockDrones[id];
 }
 
 export function createDrone(drone: Drone): Drone {
-  mockDrones.set(drone.id, drone);
+  mockDrones[drone.id] = drone;
   return drone;
 }
 
 export function updateDrone(id: ID, updates: Partial<Omit<Drone, 'id' | 'kind'>>): Drone | undefined {
-  const existing = mockDrones.get(id);
+  const existing = mockDrones[id];
   if (!existing) {
     return undefined;
   }
@@ -31,10 +31,12 @@ export function updateDrone(id: ID, updates: Partial<Omit<Drone, 'id' | 'kind'>>
     updatedAt: new Date().toISOString(),
   };
 
-  mockDrones.set(id, updated);
+  mockDrones[id] = updated;
   return updated;
 }
 
 export function deleteDrone(id: ID): boolean {
-  return mockDrones.delete(id);
+  if (!mockDrones[id]) return false;
+  delete mockDrones[id];
+  return true;
 }

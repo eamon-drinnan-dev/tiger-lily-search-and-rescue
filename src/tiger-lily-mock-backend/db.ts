@@ -142,14 +142,15 @@ const drone6: Drone = {
   updatedAt: hoursAgo(0.13),
 };
 
-export const mockDrones = new Map<ID, Drone>([
-  [drone1.id, drone1],
-  [drone2.id, drone2],
-  [drone3.id, drone3],
-  [drone4.id, drone4],
-  [drone5.id, drone5],
-  [drone6.id, drone6],
-]);
+// ✅ Use objects (mirrors real JSON responses from backend)
+export const mockDrones: Record<ID, Drone> = {
+  [drone1.id]: drone1,
+  [drone2.id]: drone2,
+  [drone3.id]: drone3,
+  [drone4.id]: drone4,
+  [drone5.id]: drone5,
+  [drone6.id]: drone6,
+};
 
 //
 // Mock Data: K9 Units
@@ -207,12 +208,13 @@ const k9Unit4: K9Unit = {
   updatedAt: hoursAgo(0.25),
 };
 
-export const mockK9Units = new Map<ID, K9Unit>([
-  [k9Unit1.id, k9Unit1],
-  [k9Unit2.id, k9Unit2],
-  [k9Unit3.id, k9Unit3],
-  [k9Unit4.id, k9Unit4],
-]);
+// ✅ Use objects (mirrors real JSON responses from backend)
+export const mockK9Units: Record<ID, K9Unit> = {
+  [k9Unit1.id]: k9Unit1,
+  [k9Unit2.id]: k9Unit2,
+  [k9Unit3.id]: k9Unit3,
+  [k9Unit4.id]: k9Unit4,
+};
 
 //
 // Mock Data: Responders
@@ -283,13 +285,14 @@ const responder5: Responder = {
   updatedAt: hoursAgo(1),
 };
 
-export const mockResponders = new Map<ID, Responder>([
-  [responder1.id, responder1],
-  [responder2.id, responder2],
-  [responder3.id, responder3],
-  [responder4.id, responder4],
-  [responder5.id, responder5],
-]);
+// ✅ Use objects (mirrors real JSON responses from backend)
+export const mockResponders: Record<ID, Responder> = {
+  [responder1.id]: responder1,
+  [responder2.id]: responder2,
+  [responder3.id]: responder3,
+  [responder4.id]: responder4,
+  [responder5.id]: responder5,
+};
 
 //
 // Mock Data: Incidents
@@ -358,13 +361,14 @@ const incident5: Incident = {
   updatedAt: hoursAgo(3),
 };
 
-export const mockIncidents = new Map<ID, Incident>([
-  [incident1.id, incident1],
-  [incident2.id, incident2],
-  [incident3.id, incident3],
-  [incident4.id, incident4],
-  [incident5.id, incident5],
-]);
+// ✅ Use objects (mirrors real JSON responses from backend)
+export const mockIncidents: Record<ID, Incident> = {
+  [incident1.id]: incident1,
+  [incident2.id]: incident2,
+  [incident3.id]: incident3,
+  [incident4.id]: incident4,
+  [incident5.id]: incident5,
+};
 
 //
 // Mock Data: Zones
@@ -500,14 +504,15 @@ const zone6: Zone = {
   updatedAt: hoursAgo(0.8),
 };
 
-export const mockZones = new Map<ID, Zone>([
-  [zone1.id, zone1],
-  [zone2.id, zone2],
-  [zone3.id, zone3],
-  [zone4.id, zone4],
-  [zone5.id, zone5],
-  [zone6.id, zone6],
-]);
+// ✅ Use objects (mirrors real JSON responses from backend)
+export const mockZones: Record<ID, Zone> = {
+  [zone1.id]: zone1,
+  [zone2.id]: zone2,
+  [zone3.id]: zone3,
+  [zone4.id]: zone4,
+  [zone5.id]: zone5,
+  [zone6.id]: zone6,
+};
 
 //
 // Database Export

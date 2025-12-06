@@ -3,24 +3,24 @@ import { mockIncidents } from './db';
 
 /**
  * Incidents Repository
- * @description In-memory CRUD operations for incident entities using Map
+ * @description In-memory CRUD operations for incident entities using objects
  */
 
 export function getAllIncidents(): Incident[] {
-  return Array.from(mockIncidents.values());
+  return Object.values(mockIncidents);
 }
 
 export function getIncidentById(id: ID): Incident | undefined {
-  return mockIncidents.get(id);
+  return mockIncidents[id];
 }
 
 export function createIncident(incident: Incident): Incident {
-  mockIncidents.set(incident.id, incident);
+  mockIncidents[incident.id] = incident;
   return incident;
 }
 
 export function updateIncident(id: ID, updates: Partial<Omit<Incident, 'id' | 'kind'>>): Incident | undefined {
-  const existing = mockIncidents.get(id);
+  const existing = mockIncidents[id];
   if (!existing) {
     return undefined;
   }
@@ -31,10 +31,12 @@ export function updateIncident(id: ID, updates: Partial<Omit<Incident, 'id' | 'k
     updatedAt: new Date().toISOString(),
   };
 
-  mockIncidents.set(id, updated);
+  mockIncidents[id] = updated;
   return updated;
 }
 
 export function deleteIncident(id: ID): boolean {
-  return mockIncidents.delete(id);
+  if (!mockIncidents[id]) return false;
+  delete mockIncidents[id];
+  return true;
 }
